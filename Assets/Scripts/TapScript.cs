@@ -8,13 +8,16 @@ using UnityEngine.XR.ARSubsystems;
 public class TapScript : MonoBehaviour
 {
     public GameObject objectToCreate;
+    public GameObject coin;
     public Camera arCamera;
     private GameObject car;
+    private int mode;
     //private ARRaycastManager RCmngr;
     //static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     // Start is called before the first frame update
     private void Awake()
     {
+        mode = 1;
         //RCmngr = GetComponent<ARRaycastManager>();
     }
 
@@ -25,18 +28,26 @@ public class TapScript : MonoBehaviour
         for (int i = 0; i*Input.touchCount < Input.touchCount; ++i)
         {
             Touch t = Input.GetTouch(i);
-            if (t.phase == TouchPhase.Began || true)
+            if (mode == 0 && t.phase == TouchPhase.Began && t.position.x < 500 && t.position.y < 500) mode = -1;
+            if (mode == -1) {
+                if(t.phase == TouchPhase.Ended) mode = 1;
+                return;
+            }
+            Ray ray = arCamera.ScreenPointToRay(t.position);
+            RaycastHit hitobject;
+
+            if (Physics.Raycast(ray, out hitobject))
             {
-                Ray ray = arCamera.ScreenPointToRay(t.position);
-                RaycastHit hitobject;
-                if (Physics.Raycast(ray, out hitobject)) physicsHitAction(hitobject);
-                //Physics raycast seems to interact with AR planes, but in case it was needed, here is how to do it with an ARraycast
-                //if (RCmngr.Raycast(t.position, hits, TrackableType.PlaneWithinPolygon)) arHitAction();
+                if (mode == 0) carInteraction(hitobject);
+                else if (mode == 1 && t.phase == TouchPhase.Ended) {
+                    Instantiate(coin, hitobject.point + new Vector3(0, 0.1f, 0), Quaternion.Euler(0, 0, 0));
+                    mode = 0;
+                }
             }
         }
     }
 
-    private void physicsHitAction(RaycastHit o) {
+    private void carInteraction(RaycastHit o) {
         //o.transform.gameObject;
         if (car == null) car = Instantiate(objectToCreate, o.point, Quaternion.Euler(0,0,0));
         else car.SendMessage("setTarget", o.point + new Vector3(0,0.2f,0), SendMessageOptions.DontRequireReceiver);

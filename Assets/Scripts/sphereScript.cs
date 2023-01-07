@@ -30,4 +30,9 @@ public class sphereScript : MonoBehaviour
         direction.y = 0;
         transform.LookAt(transform.position + direction);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        collision.gameObject.SendMessage("carCollision", SendMessageOptions.DontRequireReceiver);
+    }
 }
