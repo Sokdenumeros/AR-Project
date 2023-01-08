@@ -28,7 +28,7 @@ public class TapScript : MonoBehaviour
         for (int i = 0; i*Input.touchCount < Input.touchCount; ++i)
         {
             Touch t = Input.GetTouch(i);
-            if (mode == 0 && t.phase == TouchPhase.Began && t.position.x < 500 && t.position.y < 500) mode = -1;
+            if (mode == 0 && t.phase == TouchPhase.Began && t.position.x < 300 && t.position.y < 300) mode = -1;
             if (mode == -1) {
                 if(t.phase == TouchPhase.Ended) mode = 1;
                 return;
