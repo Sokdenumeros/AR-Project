@@ -31,8 +31,8 @@ public class sphereScript : MonoBehaviour
         transform.LookAt(transform.position + direction);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        collision.gameObject.SendMessage("carCollision", SendMessageOptions.DontRequireReceiver);
+        other.gameObject.SendMessage("carCollision", SendMessageOptions.DontRequireReceiver);
     }
 }

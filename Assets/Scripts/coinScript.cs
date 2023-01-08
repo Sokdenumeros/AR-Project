@@ -21,7 +21,7 @@ public class coinScript : MonoBehaviour
         if (mode == 1) {
             time += Time.deltaTime;
             transform.RotateAround(transform.position, Vector3.up, rotationSpeed * Time.deltaTime * 100 * (0.8f-time));
-            transform.position += new Vector3(0, 0.001f, 0)*10* (0.8f - time);
+            transform.position += new Vector3(0, 0.03f, 0)* (0.8f - time);
         }
     }
 

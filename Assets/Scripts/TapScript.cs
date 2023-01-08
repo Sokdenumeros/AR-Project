@@ -17,7 +17,7 @@ public class TapScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        mode = 1;
+        mode = 0;
         //RCmngr = GetComponent<ARRaycastManager>();
     }
 
