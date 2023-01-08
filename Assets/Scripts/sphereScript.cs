@@ -29,6 +29,7 @@ public class sphereScript : MonoBehaviour
         //due to AR innacuracies, some frames the car moves up and down because of the plane moving, this makes the car face up or down instead of being parallell to the plane so we set y to 0
         direction.y = 0;
         transform.LookAt(transform.position + direction);
+        transform.RotateAround(transform.position, Vector3.up, -90);
     }
 
     void OnTriggerEnter(Collider other)
